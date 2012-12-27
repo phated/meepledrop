@@ -1,10 +1,19 @@
 //load the AMD modules we need
-require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils', 'frozen/box2d/Box', 'frozen/box2d/RectangleEntity', 'frozen/box2d/PolygonEntity', 'frozen/box2d/MultiPolygonEntity', 'frozen/box2d/CircleEntity', 'Meeple', 'MeeplePiece', 'dojo/domReady!'],
- function(GameCore, ResourceManager, keys, utils, Box, Rectangle, Polygon, MulitPolygon, Circle, Meeple, MeeplePiece){
+require([
+  'frozen/GameCore',
+  'frozen/ResourceManager',
+  'dojo/keys',
+  'frozen/utils',
+  'frozen/box2d/Box',
+  'frozen/box2d/RectangleEntity',
+  'frozen/box2d/PolygonEntity',
+  'frozen/box2d/MultiPolygonEntity',
+  'frozen/box2d/CircleEntity',
+  'Meeple',
+  'MeeplePiece',
+  'dojo/domReady!'
+], function(GameCore, ResourceManager, keys, utils, Box, Rectangle, Polygon, MulitPolygon, Circle, Meeple, MeeplePiece){
 
-  
-
-  
   var speed = 3;
 
   var rm = new ResourceManager();
@@ -73,7 +82,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
   var spikes = [];
   var meepPieces = [];
 
-  
+
 
 
   //create each of the shapes in the world
@@ -98,7 +107,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
     staticBody: true
   });
   world[geomId] = celing;
-  
+
 
   geomId++;
   leftWall = new Rectangle({
@@ -155,7 +164,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
 
     // create our box2d instance
     box = new Box({intervalRate:60, adaptive:false, width:game.canvas.width, height:game.canvas.height, scale:SCALE, gravityY:9.8, resolveCollisions: true});
- 
+
     box.addBody(ground);
     box.addBody(celing);
     box.addBody(leftWall);
@@ -185,7 +194,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
 
     },
     handleInput: function(im){
-      
+
       if(meeps[0]){
         if(im.keyActions['A'].isPressed()){
           box.applyImpulseDegrees(meeps[0].id, 270, speed);
@@ -259,7 +268,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
 
     },
     update: function(millis){
-      
+
       //have box2d do an interation
       box.update(millis);
       //have update local objects with box2d calculations
@@ -289,7 +298,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
       meeps.forEach(function(meep){
         if(meep.collisions){
           meep.collisions.forEach(function(collision){
-            
+
             if(world[collision.id] && world[collision.id].spike){
               rm.playSound(scream);
               if(!meep.dead){
@@ -315,7 +324,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
                   meepPieces.push(meepPiece);
                 });
               }
-              
+
             }else if(collision.impulse > SOUND_IMPULSE_THRESHOLD_MEEP){
                 var gain = Math.min(collision.impulse, SOUND_IMPULSE_MAX_MEEP) / SOUND_IMPULSE_MAX_MEEP;
                 rm.playSound(clack, false, 0, gain);
@@ -331,7 +340,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
           aliveMeeps.push(meep);
         }
       });
-        
+
       meeps = aliveMeeps;
 
       if(resetGame){
@@ -344,7 +353,7 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
         resetGame = false;
         meeps = [];
       }
-      
+
 
     },
     draw: function(context){
@@ -394,14 +403,14 @@ require(['frozen/GameCore', 'frozen/ResourceManager', 'dojo/keys', 'frozen/utils
         context.fillText(deathCount, 360, 42);
         context.strokeText(deathCount, 360, 42);
       }
-      
+
     }
   });
 
   //if you want to take a look at the game object in dev tools
   console.log(game);
 
- 
+
 
   //launch the game!
   game.run();
