@@ -1,10 +1,11 @@
 define([
-  'dojo/_base/declare',
+  'dcl',
+  'dcl/bases/Mixer',
   'frozen/box2d/PolygonEntity',
   'frozen/utils'
-], function(declare, Polygon, utils){
+], function(dcl, Mixer, Polygon, utils){
 
-  return declare([Polygon], {
+  return dcl([Mixer, Polygon], {
     restitution: 0.7,
     density: 0.9,
     friction: 0.8,
@@ -12,9 +13,6 @@ define([
     meeplePiece: true,
     img: null,
     scale: 30,
-    constructor: function(args){
-      declare.safeMixin(this, args);
-    },
     draw: function(ctx, scale){
       ctx.save();
       ctx.translate(this.x * scale, this.y * scale);

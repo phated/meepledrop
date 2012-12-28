@@ -1,10 +1,11 @@
 define([
-  'dojo/_base/declare',
+  'dcl',
+  'dcl/bases/Mixer',
   'frozen/box2d/MultiPolygonEntity',
   'frozen/utils'
-], function(declare, MultiPolygon, utils){
+], function(dcl, Mixer, MultiPolygon, utils){
 
-  return declare([MultiPolygon], {
+  return dcl([Mixer, MultiPolygon], {
     restitution: 0.2,
     density: 0.9,
     friction: 0.8,
@@ -12,7 +13,6 @@ define([
     img: null,
     scale: 30,
     constructor: function(args){
-      declare.safeMixin(this, args);
       this.polys = utils.scalePoints(utils.translatePoints([
           [{x:34,y:20},{x:36,y:9},{x:42,y:2},{x:50,y:0},{x:58,y:2},{x:63,y:9},{x:66,y:20}],
           [{x:66,y:20},{x:96,y:35},{x:99,y:44},{x:92,y:48},{x:76,y:52}],
